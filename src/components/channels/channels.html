@@ -1,0 +1,17 @@
+<ion-header>
+   <ion-toolbar>
+      <ion-buttons end>
+         <button ion-button icon-only (click)="addChannel()">
+            <ion-icon name="add"></ion-icon>
+         </button>
+      </ion-buttons>
+
+      <ion-title>Channels</ion-title>
+   </ion-toolbar>
+</ion-header>
+
+<ion-content>
+   <div *ngFor="let channel of channels" (click)="select.emit(channel)">
+      {{ channel.name }}
+   </div>
+</ion-content>
