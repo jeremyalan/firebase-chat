@@ -1,6 +1,18 @@
 <ion-menu [content]="content">
-   <channels [user]="user" (select)="openChannel($event)"></channels>
+   <ion-header>
+      <ion-toolbar>
+         <ion-buttons end>
+            <add-channel-button (add)="goToChannel($event)" [user]="userSubject"></add-channel-button>
+         </ion-buttons>
+
+         <ion-title>Channels</ion-title>
+      </ion-toolbar>
+   </ion-header>
+
+   <ion-content padding>
+      <user-channels-list (select)="goToChannel($event)" [user]="userSubject"></user-channels-list>
+   </ion-content>
 </ion-menu>
 
 <!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->
-<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>
+<ion-nav #content swipeBackEnabled="false"></ion-nav>

@@ -1,6 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, EventEmitter, OnInit } from '@angular/core';
 import { Disposable, Watchable } from '../../mixins';
 import { AngularFireDatabase } from 'angularfire2/database';
+import { Observable, BehaviorSubject } from "rxjs/Rx";
+import { User } from "firebase";
 
 /**
  * Generated class for the ChannelComponent component.
@@ -12,28 +14,35 @@ import { AngularFireDatabase } from 'angularfire2/database';
    selector: 'channel',
    templateUrl: 'channel.html'
 })
-export class ChannelComponent extends Disposable(Watchable()) {
+export class ChannelComponent implements OnInit {
 
-   @Input() channel: any;
+   @Input('channel') channel$: BehaviorSubject<any>;
+   @Input('user') user$: BehaviorSubject<User>;
 
-   messages: Array<any>;
+   text: string;
+
+   messages$: Observable<any[]>;
 
    constructor(private db: AngularFireDatabase) {
-      super();
-
-      this.watch('channel', this.onChannelChanged.bind(this));
    }
 
-   onChannelChanged() {
-      if (this.channel) {
-         return;
-      }
+   ngOnInit() {
+      this.messages$ = this.channel$.asObservable()
+         .filter(a => a != null)
+         .switchMap(channel => this.db.list(`/channels/${ channel.id }/messages`));
+   }
 
-      const subscription = this.db.list(`/channels/${ this.channel.id }/messages`)
-         .subscribe((messages) => {
-            this.messages = messages;
+   async send() {
+      const channel = this.channel$.getValue().id;
+      const user = this.user$.getValue().uid;
+
+      const ref = this.db.list(`/channels/${ channel }/messages`)
+         .push({
+            author: user,
+            text: this.text
          });
+      await ref;
 
-      this.register(subscription);
+      this.text = null;
    }
 }

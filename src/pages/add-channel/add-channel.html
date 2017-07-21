@@ -19,7 +19,7 @@
          <ion-icon name="add"></ion-icon>
          <span>&nbsp; Create new channel</span>
       </ion-item>
-      <ion-item *ngFor="let channel of channels | async" (click)="select(channel)">
+      <ion-item *ngFor="let channel of channels | async" (click)="select(channel.id)">
          {{ channel.name }}
       </ion-item>
    </ion-list>

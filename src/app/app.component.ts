@@ -6,6 +6,8 @@ import { AngularFireAuth } from 'angularfire2/auth';
 
 import { HomePage } from '../pages/home/home';
 import { ChannelPage } from '../pages/channel/channel';
+import { Observable, Subscriber, BehaviorSubject } from "rxjs/Rx";
+import { User } from "firebase";
 
 @Component({
    templateUrl: 'app.html',
@@ -14,8 +16,8 @@ import { ChannelPage } from '../pages/channel/channel';
 export class MyApp {
    @ViewChild(Nav) nav: Nav;
 
-   rootPage: any = HomePage;
-   user: any;
+   channelSubject: BehaviorSubject<any>;
+   userSubject: BehaviorSubject<User>;
 
    constructor(public platform: Platform,
                public statusBar: StatusBar,
@@ -31,21 +33,20 @@ export class MyApp {
          this.statusBar.styleDefault();
          this.splashScreen.hide();
 
-         this.signIn();
+         this.nav.setRoot(ChannelPage, { channel: this.channelSubject, user: this.userSubject });
       });
-   }
 
-   openChannel(channel: any) {
-      this.nav.setRoot(ChannelPage, { channel });
-   }
+      this.channelSubject = new BehaviorSubject(null);
+      this.userSubject = new BehaviorSubject(null);
+      
+      this.auth.auth.signInAnonymously();
 
-   private signIn() {
       this.auth.authState.subscribe((user) => {
-         if (user == null) {
-            return this.auth.auth.signInAnonymously();
-         }
-
-         this.user = user.uid;
+         this.userSubject.next(user);
       });
+   }
+
+   goToChannel(channel: any) {
+      this.channelSubject.next(channel);
    }
 }

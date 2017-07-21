@@ -6,12 +6,8 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { Subject } from 'rxjs/Subject';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
-/**
- * Generated class for the AddChannelPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/first';
 
 @Component({
    selector: 'page-add-channel',
@@ -69,25 +65,27 @@ export class AddChannelPage implements OnInit {
          });
       await channelRef;
 
-      await this.db.list(`/channels/${ channelRef.key }`)
-         .update(channelRef.key, { id: channelRef.key });
+      await this.db.database.ref(`/channels/${ channelRef.key }`)
+         .update({ id: channelRef.key });
 
-      await this.select(channel);
+      await this.select(channelRef.key);
    }
 
-   async select(channel: any) {
+   async select(id: string) {
       const user = this.auth.auth.currentUser;
 
       if (user == null) {
          return;
       }
 
-      await this.db.list(`/users/${ user.uid }/channels`)
-         .update(channel.id, { active: true });
-      await this.db.list(`/channels/${ channel.id }/users`)
-         .update(user.uid, { active: true });
+      await this.db.database.ref(`/users/${ user.uid }/channels/${ id }`)
+         .update({ active: true });
 
-      await this.db.object(`/channels/${ channel.id }`)
-         .do((channel) => { this.viewCtrl.dismiss(channel) });
+      await this.db.database.ref(`/channels/${ id }/users/${ user.uid }`)
+         .update({ active: true })
+
+      this.db.object(`/channels/${ id }`)
+         .first()
+         .subscribe(channel => this.viewCtrl.dismiss(channel));
    }
 }

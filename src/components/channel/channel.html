@@ -1,4 +1,19 @@
 <!-- Generated template for the ChannelComponent component -->
-<div>
-  {{text}}
+<div *ngFor="let message of messages$ | async" padding>
+   {{ message.text }}
 </div>
+
+<ion-footer>
+   <ion-grid>
+      <ion-row>
+         <ion-col col-10>
+            <ion-input type="text" placeholder="Type your message here..." [(ngModel)]="text"></ion-input>
+         </ion-col>
+         <ion-col>
+            <button ion-button icon-only clear (click)="send()">
+               <ion-icon name="md-send"></ion-icon>
+            </button>
+         </ion-col>
+      </ion-row>
+   </ion-grid>
+</ion-footer>

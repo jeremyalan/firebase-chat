@@ -12,9 +12,10 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
-import { ChannelsComponent } from '../components/channels/channels';
 import { ChannelComponent } from '../components/channel/channel';
 import { AddChannelPage } from '../pages/add-channel/add-channel';
+import { AddChannelButtonComponent } from '../components/add-channel-button/add-channel-button';
+import { UserChannelsListComponent } from '../components/user-channels-list/user-channels-list';
 
 export const firebaseConfig = {
    apiKey: "AIzaSyCbfzOGSZqKP-2k_uoN9glIjjXihXoLAg0",
@@ -30,9 +31,10 @@ export const firebaseConfig = {
     MyApp,
     HomePage,
     ChannelPage,
-    ChannelsComponent,
     ChannelComponent,
-    AddChannelPage
+    AddChannelPage,
+    AddChannelButtonComponent,
+    UserChannelsListComponent
   ],
   imports: [
     BrowserModule,
