@@ -1,5 +1,9 @@
 <!-- Generated template for the ChannelComponent component -->
-<div *ngFor="let message of messages$ | async" padding>
+<div *ngIf="(messages$ | async)?.length == 0" padding-top text-center style="color: #aaa">
+   There are no messages
+</div>
+
+<div *ngFor="let message of messages$ | async" padding-left padding-bottom>
    {{ message.text }}
 </div>
 

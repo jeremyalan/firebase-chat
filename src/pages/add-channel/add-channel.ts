@@ -88,4 +88,8 @@ export class AddChannelPage implements OnInit {
          .first()
          .subscribe(channel => this.viewCtrl.dismiss(channel));
    }
+
+   cancel() {
+      this.viewCtrl.dismiss(null);
+   }
 }

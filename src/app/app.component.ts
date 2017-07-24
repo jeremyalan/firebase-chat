@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { AngularFireAuth } from 'angularfire2/auth';
@@ -8,6 +9,7 @@ import { HomePage } from '../pages/home/home';
 import { ChannelPage } from '../pages/channel/channel';
 import { Observable, Subscriber, BehaviorSubject } from "rxjs/Rx";
 import { User } from "firebase";
+import { AngularFireDatabase } from "angularfire2/database";
 
 @Component({
    templateUrl: 'app.html',
@@ -22,7 +24,9 @@ export class MyApp {
    constructor(public platform: Platform,
                public statusBar: StatusBar,
                public splashScreen: SplashScreen,
-               public auth: AngularFireAuth) {
+               public auth: AngularFireAuth,
+               public db: AngularFireDatabase,
+               public storage: Storage) {
       this.initializeApp();
    }
 
@@ -34,6 +38,8 @@ export class MyApp {
          this.splashScreen.hide();
 
          this.nav.setRoot(ChannelPage, { channel: this.channelSubject, user: this.userSubject });
+
+         this.getInitialChannel();
       });
 
       this.channelSubject = new BehaviorSubject(null);
@@ -46,7 +52,24 @@ export class MyApp {
       });
    }
 
+   async getInitialChannel() {
+      const channelId = await this.storage.get('mostRecentChannel');
+
+      if (channelId == null) {
+         return;
+      }
+
+      this.db.object(`channels/${ channelId }`)
+         .first()
+         .subscribe(channel => this.goToChannel(channel));
+   }
+
    goToChannel(channel: any) {
+      if (channel == null) {
+         return;
+      }
+
+      this.storage.set('mostRecentChannel', channel.id);
       this.channelSubject.next(channel);
    }
 }

@@ -6,19 +6,25 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>Join a Channel</ion-title>
-  </ion-navbar>
+  <ion-toolbar>
+     <ion-title>Join a Channel</ion-title>
+
+     <ion-buttons end>
+        <button ion-button icon-only (click)="cancel()">
+           <ion-icon name="close"></ion-icon>
+        </button>
+     </ion-buttons>
+  </ion-toolbar>
 
 </ion-header>
 
 <ion-content padding>
    <ion-searchbar #searchInput [debounce]="300" [showCancelButton]="true" (ionInput)="search($event)"></ion-searchbar>
    <ion-list>
-      <ion-item (click)="create(searchInput.value)">
+      <button ion-item (click)="create(searchInput.value)" [disabled]="searchInput.value?.length == 0">
          <ion-icon name="add"></ion-icon>
-         <span>&nbsp; Create new channel</span>
-      </ion-item>
+         <span>&nbsp;Create new channel</span>
+      </button>
       <ion-item *ngFor="let channel of channels | async" (click)="select(channel.id)">
          {{ channel.name }}
       </ion-item>

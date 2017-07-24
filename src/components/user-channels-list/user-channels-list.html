@@ -1,5 +1,7 @@
 <ion-list>
-   <button ion-item *ngFor="let channel of channels$ | async" (click)="select.emit(channel)" menuToggle>
-      {{ channel.name }}
+   <button ion-item *ngFor="let channel of channels$ | async" (click)="select.emit(channel)" menuToggle no-padding>
+      <div padding-left>
+         {{ channel.name }}
+      </div>
    </button>
 </ion-list>
