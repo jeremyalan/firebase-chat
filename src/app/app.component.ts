@@ -6,7 +6,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { AngularFireAuth } from 'angularfire2/auth';
 
 import { ChannelPage } from '../pages/channel/channel';
-import { Observable, Subscriber, BehaviorSubject } from "rxjs/Rx";
+import { BehaviorSubject } from "rxjs/Rx";
 import { User } from "firebase";
 import { AngularFireDatabase } from "angularfire2/database";
 

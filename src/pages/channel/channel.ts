@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
-import { AngularFireDatabase } from "angularfire2/database";
+import { NavParams } from 'ionic-angular';
 import { BehaviorSubject } from "rxjs";
-import { User } from "firebase";
+import { User } from "firebase/app";
 
 /**
  * Generated class for the ChannelPage page.
@@ -20,7 +19,7 @@ export class ChannelPage {
    channel$: BehaviorSubject<any>;
    user$: BehaviorSubject<User>;
 
-   constructor(private navParams: NavParams) {
+   constructor(navParams: NavParams) {
 
       this.channel$ = navParams.get('channel');
       this.user$ = navParams.get('user');

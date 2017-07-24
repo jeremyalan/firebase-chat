@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { AngularFireDatabase } from "angularfire2/database";
-import { User } from "firebase";
+import { User } from "firebase/app";
 import { Observable, BehaviorSubject } from "rxjs";
 
 /**

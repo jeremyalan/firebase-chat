@@ -1,7 +1,7 @@
-import { Component, Input, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Observable, BehaviorSubject } from "rxjs/Rx";
-import { User } from "firebase";
+import { User } from "firebase/app";
 
 /**
  * Generated class for the ChannelComponent component.
