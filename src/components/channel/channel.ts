@@ -1,5 +1,4 @@
 import { Component, Input, EventEmitter, OnInit } from '@angular/core';
-import { Disposable, Watchable } from '../../mixins';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Observable, BehaviorSubject } from "rxjs/Rx";
 import { User } from "firebase";
