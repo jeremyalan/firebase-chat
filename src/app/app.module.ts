@@ -4,7 +4,6 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { IonicStorageModule } from '@ionic/storage';
 
 import { MyApp } from './app.component';
-import { HomePage } from '../pages/home/home';
 import { ChannelPage } from '../pages/channel/channel';
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -30,7 +29,6 @@ export const firebaseConfig = {
 @NgModule({
   declarations: [
     MyApp,
-    HomePage,
     ChannelPage,
     ChannelComponent,
     AddChannelPage,
@@ -48,7 +46,6 @@ export const firebaseConfig = {
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage,
     ChannelPage,
     AddChannelPage
   ],
