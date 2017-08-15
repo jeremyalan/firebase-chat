@@ -35,12 +35,11 @@ export class ChannelComponent implements OnInit {
       const channel = this.channel$.getValue().id;
       const user = this.user$.getValue().uid;
 
-      const ref = this.db.list(`/channels/${ channel }/messages`)
+      await this.db.list(`/channels/${ channel }/messages`)
          .push({
             author: user,
             text: this.text
          });
-      await ref;
 
       this.text = null;
    }
